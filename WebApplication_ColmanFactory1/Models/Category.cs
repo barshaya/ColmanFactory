@@ -9,7 +9,6 @@ namespace WebApplication_ColmanFactory1.Models
     {
         public int CategoryId { get; set; }
 
-
         [System.ComponentModel.DisplayName("Category Name")]
         public string CategoryName { get; set; }
 

@@ -24,13 +24,14 @@ namespace WebApplication_ColmanFactory1.Models
         public string ProductImagePath { get; set; }
 
         [DisplayName("Price")]
-        [Required(ErrorMessage = "You must enter a name")]
+        [Required]
         [Range(0, 500)]
         [DataType(DataType.Currency)]
         public double ProductPrice { get; set; }
 
-        [Required]
-        public string ProductColor { get; set; }
+        public bool IsOnSale { get; set; }
+
+        public bool IsInStock { get; set; }
 
         //Required]
         //public List<Int32> ProductSizeList { get; set; }
