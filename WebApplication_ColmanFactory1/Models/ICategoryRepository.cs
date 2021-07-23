@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebApplication_ColmanFactory1.Models
 {
-    public class ICategoryRepository
+    public interface ICategoryRepository
     {
+        List<Category> GetAllCategories { get; }
     }
 }
