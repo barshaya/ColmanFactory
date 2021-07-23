@@ -27,6 +27,10 @@ namespace WebApplication_ColmanFactory1
         {
             services.AddControllersWithViews();
 
+            services.AddScoped<Models.ICategoryRepository, Models.CategoryRepository>();
+
+            services.AddScoped<Models.IProductRepository, Models.ProductRepository>();
+
             services.AddDbContext<WebApplication_ColmanFactory1Context>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebApplication_ColmanFactory1Context")));
         }
