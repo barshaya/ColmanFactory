@@ -8,11 +8,7 @@ namespace WebApplication_ColmanFactory1.Models
     public class Category
     {
         public int CategoryId { get; set; }
-
-        [System.ComponentModel.DisplayName("Category Name")]
-        public string CategoryName { get; set; }
-
-        //one -> many : Category -> Product
-        public List<Product> Products { get; set; }
+        public string Name { get; set; }
+        public List<Product> Candies { get; set; }
     }
 }
