@@ -15,7 +15,7 @@ namespace WebApplication_ColmanFactory1.Models
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Category> Categorys { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public DbSet<User> Users { get; set; }
 
