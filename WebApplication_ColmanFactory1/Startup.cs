@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebApplication_ColmanFactory1.Data;
 
 namespace WebApplication_ColmanFactory1
 {
@@ -27,12 +26,6 @@ namespace WebApplication_ColmanFactory1
         {
             services.AddControllersWithViews();
 
-            services.AddScoped<Models.ICategoryRepository, Models.CategoryRepository>();
-
-            services.AddScoped<Models.IProductRepository, Models.ProductRepository>();
-
-            services.AddDbContext<WebApplication_ColmanFactory1Context>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("WebApplication_ColmanFactory1Context")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
