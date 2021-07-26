@@ -8,7 +8,21 @@ namespace WebApplication_ColmanFactory1.Models
 {
     public class Cart
     {
-        public string CartId { get; set; }
-        public List<CartItem> CartItems { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public int UserId { get; set; }
+
+        public User User { get; set; }
+
+        [Required]
+        [DataType(DataType.Currency)]
+        public double TotalPrice { get; set; } = 0;
+
+        public List<Product> Products { get; set; }
+
+        internal static object Index()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
