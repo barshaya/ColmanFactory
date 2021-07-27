@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,30 +20,51 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Categories
+       
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            try
+            {
+                return View(await _context.Categories.ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
+
+      
+        public async Task<IActionResult> Search(string query)
+        {
+            try
+            {
+                return Json(await _context.Categories.Where(c => c.Name.Contains(query)).ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+                var category = await _context.Categories
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (category == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            return View(category);
+                return View(category);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Categories/Create
+   
         public IActionResult Create()
         {
             return View();
@@ -55,29 +77,40 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    System.Diagnostics.Debug.WriteLine("hello");
+
+
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(category);
             }
-            return View(category);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
+                var category = await _context.Categories.FindAsync(id);
+                if (category == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
+                return View(category);
             }
-            return View(category);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // POST: Categories/Edit/5
@@ -87,50 +120,58 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
         {
-            if (id != category.Id)
+            try
             {
-                return NotFound();
-            }
+                if (id != category.Id)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(category);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!CategoryExists(category.Id))
+                        {
+                            return RedirectToAction("PageNotFound", "Home");
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(category);
             }
-            return View(category);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+                var category = await _context.Categories
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (category == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            return View(category);
+                return View(category);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // POST: Categories/Delete/5
@@ -138,15 +179,39 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var category = await _context.Categories.FindAsync(id);
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         private bool CategoryExists(int id)
         {
             return _context.Categories.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> Women()
+        {
+            return View(await _context.Products.Where(p => p.CategoryId == 1).ToListAsync());
+        }
+
+        public async Task<IActionResult> Men()
+        {
+            return View(await _context.Products.Where(p => p.CategoryId == 2).ToListAsync());
+        }
+
+        public async Task<IActionResult> Boys()
+        {
+            return View(await _context.Products.Where(p => p.CategoryId == 3).ToListAsync());
+        }
+
+        public async Task<IActionResult> Girls()
+        {
+            return View(await _context.Products.Where(p => p.CategoryId == 4).ToListAsync());
         }
     }
 }
