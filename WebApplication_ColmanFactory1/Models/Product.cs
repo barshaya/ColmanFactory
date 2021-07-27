@@ -20,17 +20,18 @@ namespace WebApplication_ColmanFactory1.Models
         [DataType(DataType.Currency)]
         public double Price { get; set; }
 
-        [Display(Name = "Category Id")]
-        [Required]
-        public int CategoryId { get; set; }
-
-        public Category Category { get; set; }
-
         [Required]
         [Display(Name = "Image path")]
         public string imagePath { get; set; }
         public bool IsOnSale { get; set; }
 
+        //one -> many : Category -> Product
+        [Display(Name = "Category Id")]
+        [Required]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        //many <-> many : Cart <-> Product
         public List<Cart> Carts { get; set; }
     }
 }

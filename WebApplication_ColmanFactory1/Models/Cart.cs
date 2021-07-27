@@ -18,6 +18,7 @@ namespace WebApplication_ColmanFactory1.Models
         [DataType(DataType.Currency)]
         public double TotalPrice { get; set; } = 0;
 
+        //many <-> many : Cart <-> Product 
         public List<Product> Products { get; set; }
 
         internal static object Index()

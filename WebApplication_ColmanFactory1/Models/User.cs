@@ -32,6 +32,7 @@ namespace WebApplication_ColmanFactory1.Models
 
         public UserType Type { get; set; } = UserType.Client;
 
+        // one <-> one : Cart <-> User
         public Cart Cart { get; set; } = new Cart();
     }
 }
