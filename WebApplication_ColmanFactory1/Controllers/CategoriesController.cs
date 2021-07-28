@@ -20,7 +20,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Categories
-       
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             try
@@ -64,7 +64,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Categories/Create
-   
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -94,6 +94,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Categories/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             try
@@ -153,6 +154,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             try
