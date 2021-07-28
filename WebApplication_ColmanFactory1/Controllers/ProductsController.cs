@@ -155,5 +155,15 @@ namespace WebApplication_ColmanFactory1.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> Search(string productName, string category, string price)
+        {
+            try
+            {
+                var applicationDbContext = _context.Products.Include(a => a.Category).Where(a => a.Name.Contains(productName) && a.Category.Name.Equals(category) && a.Price <= Int32.Parse(price));
+                return View("searchList", await applicationDbContext.ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
     }
 }
