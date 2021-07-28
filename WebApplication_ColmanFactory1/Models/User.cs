@@ -16,6 +16,7 @@ namespace WebApplication_ColmanFactory1.Models
         public int Id { get; set; }
 
         [Required]
+        [RegularExpression("^[A-Z][a-zA-Z ]*$", ErrorMessage = "The body must contains only letters and start with one uppercase letter")]
         public string Username { get; set; }
 
         [Required]
@@ -27,6 +28,7 @@ namespace WebApplication_ColmanFactory1.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Phone")]
         [DataType(DataType.PhoneNumber)]
         public int PhoneNumber { get; set; }
 
