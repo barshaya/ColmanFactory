@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApplication_ColmanFactory1.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebApplication_ColmanFactory1
 {
@@ -29,6 +30,12 @@ namespace WebApplication_ColmanFactory1
 
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
+
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(10); });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
+                options.LoginPath = "/Users/Login";
+                options.AccessDeniedPath = "/Home/AccessDenined";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +53,8 @@ namespace WebApplication_ColmanFactory1
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
+            app.UseAuthentication();
 
             app.UseRouting();
 

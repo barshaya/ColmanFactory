@@ -33,18 +33,30 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-flex-item" asp-area="" asp-controller="Users" asp-action="Login">
-                                <i class="far fa-user"></i>
-                                Sign in
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark d-flex flex-column nav-flex-item">
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                            Cart
-                            </a>
-                        </li>
+                        @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-flex-item" asp-area="" asp-controller="Users" asp-action="Logout">
+                                    <i class="far fa-user"></i>
+                                    Log out
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark d-flex flex-column nav-flex-item">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    Cart
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-flex-item" asp-area="" asp-controller="Users" asp-action="Login">
+                                    <i class="far fa-user"></i>
+                                    Log in
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
