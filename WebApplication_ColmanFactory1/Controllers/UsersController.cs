@@ -23,46 +23,6 @@ namespace WebApplication_ColmanFactory1.Controllers
             _context = context;
         }
 
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            //HttpContext.Session.Clear();
-            try
-            {
-
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-                return RedirectToAction(nameof(Index), "Home");
-            }
-            catch { return RedirectToAction("PageNotFound", "Home"); }
-        }
-
-        private async void Signin(User account)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, account.Username),
-                new Claim(ClaimTypes.Role, account.Type.ToString()),
-            };
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10)
-            };
-
-
-            await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-        }
-
         // GET: Users/Register
         public IActionResult Register()
         {
@@ -99,6 +59,23 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            //HttpContext.Session.Clear();
+            try
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+       
+
         // GET: Users/Login
         public IActionResult Login()
         {
@@ -111,8 +88,6 @@ namespace WebApplication_ColmanFactory1.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
                     var q = _context.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
                     if (q != null)
                     {
@@ -123,7 +98,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                     {
                         ViewData["Error"] = "Unable to comply ; cannot register this user.";
                     }
-                }
+                
                 return View(user);
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
@@ -143,6 +118,29 @@ namespace WebApplication_ColmanFactory1.Controllers
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
+
+        private async void Signin(User account)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, account.Username),
+                new Claim(ClaimTypes.Role, account.Type.ToString()),
+            };
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10)
+            };
+
+
+            await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+        }
+
 
 
 
