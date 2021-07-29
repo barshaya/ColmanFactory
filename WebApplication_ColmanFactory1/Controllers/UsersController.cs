@@ -51,7 +51,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                     }
                     else
                     {
-                        ViewData["Error"] = "Unable to comply ; cannot register this user.";
+                        ViewData["Error"] = "This username isn't available. Please try another.";
                     }
                 }
                 return View(user);
@@ -96,7 +96,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                     }
                     else
                     {
-                        ViewData["Error"] = "Unable to comply ; cannot register this user.";
+                        ViewData["Error"] = "The user name or password is incorrect";
                     }
                 
                 return View(user);
@@ -189,7 +189,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,Username,Password,Email,PhoneNumber,Type")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,PhoneNumber,Type")] User user)
         {
             try
             {

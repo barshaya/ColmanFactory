@@ -42,7 +42,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark d-flex flex-column nav-flex-item">
+                                <a class="nav-link text-dark d-flex flex-column nav-flex-item" asp-action="MyCart" asp-controller="Carts" asp-area="">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     Cart
                                 </a>
@@ -57,6 +57,21 @@
                                 </a>
                             </li>
                         }
+                        @if (Context.User.IsInRole("Admin"))
+                        {
+                         <li class="nav-item dropdown">
+                            <a class="btn dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                Manage
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="\Categories\Index">Categories</a></li>
+                                <li><a class="dropdown-item" href="\Products\Index">Products</a></li>
+                                <li><a class="dropdown-item" href="\Carts\Index">Carts</a></li>
+                                <li><a class="dropdown-item" href="\Users\Index">Users</a></li>
+                                <li><a class="dropdown-item" href="\Products\Statistics">Statistics</a></li>
+                            </ul>
+                         </li>
+                         }
                     </ul>
                 </div>
             </div>
