@@ -34,7 +34,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Carts/Details/5
-        
+
         public async Task<IActionResult> Details(int? id)
         {
             try
@@ -46,14 +46,14 @@ namespace WebApplication_ColmanFactory1.Controllers
 
                 var cart = await _context.Carts
                     .Include(c => c.User)
-                    .Include(p=>p.Products)
+                    .Include(p => p.Products)
                     .FirstOrDefaultAsync(m => m.Id == id);
                 if (cart == null)
                 {
                     return RedirectToAction("PageNotFound", "Home"); ;
                 }
 
-                cart.User = _context.Users.FirstOrDefault(u =>u.Id==cart.UserId);
+                cart.User = _context.Users.FirstOrDefault(u => u.Id == cart.UserId);
                 return View(cart);
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
@@ -119,7 +119,7 @@ namespace WebApplication_ColmanFactory1.Controllers
             {
                 if (id != cart.Id)
                 {
-                    return RedirectToAction("PageNotFound", "Home"); 
+                    return RedirectToAction("PageNotFound", "Home");
                 }
 
                 if (ModelState.IsValid)
@@ -145,7 +145,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                 ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
                 return View(cart);
             }
-            catch { return RedirectToAction ("PageNotFound", "Home"); }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Carts/Delete/5
@@ -252,7 +252,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // POST: Carts/removeProduct/5
-        [HttpPost, ActionName("RemoveProduct")]
+        [HttpPost, ActionName("RemoveProductFromCart")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveProductFromCart(int id) //product id
         {
@@ -303,5 +303,25 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult SearchCart(string query)
+        {
+            try
+            {
+
+                List<Cart> carts = _context.Carts.Where(c => c.User.Username.Contains(query)).Include(p => p.Products).ToList();
+
+                foreach (Cart c in carts)
+                {
+                    c.User = _context.Users.FirstOrDefault(u => u.Id == c.UserId);
+                }
+
+                return PartialView(carts);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+
+        }
     }
 }
+    

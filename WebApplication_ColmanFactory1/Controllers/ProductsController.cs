@@ -23,27 +23,37 @@ namespace WebApplication_ColmanFactory1.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            try
+            {
+                var applicationDbContext = _context.Products.Include(p => p.Category);
+                return View(await applicationDbContext.ToListAsync());
+
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+                var product = await _context.Products
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (product == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            return View(product);
+                return View(product);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home");  }
         }
 
         // GET: Products/Create
@@ -61,32 +71,40 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,CategoryId,imagePath,IsOnSale")] Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+                return View(product);
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            return View(product);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Products/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                {
+                    return  RedirectToAction("PageNotFound", "Home");
+                }
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+                return View(product);
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            return View(product);
+            catch { return RedirectToAction("PageNotFound", "Home");}
         }
 
         // POST: Products/Edit/5
@@ -97,53 +115,61 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,CategoryId,imagePath,IsOnSale")] Product product)
         {
-            if (id != product.Id)
+            try
             {
-                return NotFound();
-            }
+                if (id != product.Id)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(product);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ProductExists(product.Id))
+                        {
+                            return RedirectToAction("PageNotFound", "Home");
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+                return View(product);
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            return View(product);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Products/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+                var product = await _context.Products
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (product == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            return View(product);
+                return View(product);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // POST: Products/Delete/5
@@ -152,10 +178,14 @@ namespace WebApplication_ColmanFactory1.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var product = await _context.Products.FindAsync(id);
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         private bool ProductExists(int id)
@@ -172,5 +202,18 @@ namespace WebApplication_ColmanFactory1.Controllers
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchProductTable(string query)
+        {
+            try
+            {
+                var applicationDbContext = _context.Products.Include(p => p.Category);
+                return PartialView(await applicationDbContext.Where(p => p.Name.Contains(query)).ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
     }
+
 }
