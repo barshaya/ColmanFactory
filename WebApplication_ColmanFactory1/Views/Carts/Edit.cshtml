@@ -23,6 +23,19 @@
                 <input asp-for="TotalPrice" class="form-control" />
                 <span asp-validation-for="TotalPrice" class="text-danger"></span>
             </div>
+            @if (Model.Products != null)
+            {
+                foreach (var item in Model.Products)
+                {
+                    <div class="form-group">
+                        <label>Product Name: @Html.DisplayFor(modelItem => item.Name)</label>
+                        <img src=@item.imagePath>
+                        <label>Product Price: @Html.DisplayFor(modelItem => item.Price) </label>
+                        <br />
+
+                    </div>
+                }
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

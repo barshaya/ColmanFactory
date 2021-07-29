@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,29 +20,43 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Carts
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Carts.Include(c => c.User);
-            return View(await applicationDbContext.ToListAsync());
+            try
+            {
+                var applicationDbContext = _context.Carts.Include(c => c.User);
+                foreach (Cart cart in applicationDbContext)
+                    cart.User = _context.Users.FirstOrDefault(u => u.Id == cart.UserId);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Carts/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var cart = await _context.Carts
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
+                var cart = await _context.Carts
+                    .Include(c => c.User)
+                    .Include(p=>p.Products)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (cart == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home"); ;
+                }
 
-            return View(cart);
+                cart.User = _context.Users.FirstOrDefault(u =>u.Id==cart.UserId);
+                return View(cart);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Carts/Create
@@ -58,31 +73,39 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,TotalPrice")] Cart cart)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(cart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(cart);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
+                return View(cart);
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
-            return View(cart);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Carts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
-            {
-                return NotFound();
+                var cart = await _context.Carts.FindAsync(id);
+                if (cart == null)
+                {
+                    return NotFound();
+                }
+                ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
+                return View(cart);
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
-            return View(cart);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // POST: Carts/Edit/5
@@ -92,52 +115,61 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,TotalPrice")] Cart cart)
         {
-            if (id != cart.Id)
+            try
             {
-                return NotFound();
-            }
+                if (id != cart.Id)
+                {
+                    return RedirectToAction("PageNotFound", "Home"); 
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartExists(cart.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(cart);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!CartExists(cart.Id))
+                        {
+                            return RedirectToAction("PageNotFound", "Home");
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
+                return View(cart);
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", cart.UserId);
-            return View(cart);
+            catch { return RedirectToAction ("PageNotFound", "Home"); }
         }
 
         // GET: Carts/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
 
-            var cart = await _context.Carts
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
-            {
-                return NotFound();
+                var cart = await _context.Carts
+                    .Include(c => c.User)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (cart == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
+                cart.User = _context.Users.FirstOrDefault(u => u.Id == cart.UserId);
+                return View(cart);
             }
-
-            return View(cart);
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // POST: Carts/Delete/5
@@ -145,15 +177,131 @@ namespace WebApplication_ColmanFactory1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var cart = await _context.Carts
+                    .Include(c => c.User)
+                    .Include(p => p.Products)
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                cart.Products.Clear();
+                cart.TotalPrice = 0;
+                _context.Update(cart);
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
+
 
         private bool CartExists(int id)
         {
             return _context.Carts.Any(e => e.Id == id);
         }
+
+        public IActionResult MyCart()
+        {
+            try
+            {
+                String userName = HttpContext.User.Identity.Name;
+                User user = _context.Users.FirstOrDefault(x => x.Username.Equals(userName));
+                Cart cart = _context.Carts.FirstOrDefault(x => x.UserId == user.Id);
+                cart.Products = _context.Products.Where(x => x.Carts.Contains(cart)).ToList();
+
+                if (cart == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
+
+                return View(cart);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
+        [HttpPost, ActionName("AddProductToCart")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> AddProductToCart(int id) //product id
+        {
+            try
+            {
+                Product product = _context.Products.Include(db => db.Carts).FirstOrDefault(x => x.Id == id);
+                String userName = HttpContext.User.Identity.Name;
+                User user = _context.Users.FirstOrDefault(x => x.Username.Equals(userName));
+                Cart cart = _context.Carts.Include(db => db.Products)
+                 .FirstOrDefault(x => x.UserId == user.Id);
+
+
+                if (user.Cart.Products == null)
+                    user.Cart.Products = new List<Product>();
+                if (product.Carts == null)
+                    product.Carts = new List<Cart>();
+
+                if (!(cart.Products.Contains(product) && product.Carts.Contains(cart)))
+                {
+                    user.Cart.Products.Add(product);
+                    product.Carts.Add(cart);
+                    user.Cart.TotalPrice += product.Price;
+                    _context.Update(cart);
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction(nameof(MyCart));
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
+        // POST: Carts/removeProduct/5
+        [HttpPost, ActionName("RemoveProduct")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveProductFromCart(int id) //product id
+        {
+            try
+            {
+                Product product = _context.Products.FirstOrDefault(x => x.Id == id);
+                String userName = HttpContext.User.Identity.Name;
+
+                User user = _context.Users.FirstOrDefault(x => x.Username.Equals(userName));
+                Cart cart = _context.Carts.Include(db => db.Products)
+                    .FirstOrDefault(x => x.UserId == user.Id);
+
+                if (product != null)
+                {
+                    cart.Products.Remove(product);
+                    cart.TotalPrice -= product.Price;
+                }
+
+                _context.Attach<Cart>(cart);
+                _context.Entry(cart).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(MyCart));
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Pay()
+        {
+            try
+            {
+                String userName = HttpContext.User.Identity.Name;
+                User user = _context.Users.FirstOrDefault(x => x.Username.Equals(userName));
+                if (user == null)
+                {
+                    return RedirectToAction("PageNotFound", "Home");
+                }
+                Cart cart = _context.Carts.Include(db => db.Products).FirstOrDefault(x => x.UserId == user.Id);
+
+                cart.Products.Clear();
+                cart.TotalPrice = 0;
+
+                _context.Attach<Cart>(cart);
+                _context.Entry(cart).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return View();
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
     }
 }
