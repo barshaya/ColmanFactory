@@ -12,15 +12,23 @@ namespace WebApplication_ColmanFactory1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            try
+            {
+                var productsOnSale = _context.Products.Where(p => p.IsOnSale == true).ToList();
+
+                return View(productsOnSale);
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         public IActionResult Privacy()
