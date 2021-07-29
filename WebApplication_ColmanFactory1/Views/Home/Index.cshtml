@@ -62,7 +62,11 @@
                         <p class="card-text text-danger tex font-weight-bolder">Price: @item.Price₪</p>
                         <div class="card-buttons row justify-content-around">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                            <a class="btn btn-primary">Add to Cart</a>
+                            <form asp-controller="Carts" asp-action="AddProductToCart" asp-route-id="@item.Id" method="post">
+                                <button type="submit" class="btn btn-primary">
+                                    Add To Cart
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
