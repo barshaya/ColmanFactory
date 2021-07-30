@@ -5,7 +5,12 @@
 }
 
 <h1>Carts</h1>
-
+<br />
+<form asp-action="SearchCart">
+    <input name="query" id="query" placeholder="Enter a value to search" autocomplete="off" />
+    <input type="submit" value="search" class="btn btn-secondary" />
+</form>
+<br />
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -27,32 +32,33 @@
         </tr>
     </thead>
     <tbody>
-     @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-            <td>
-                @if (item.Products != null)
-                {
-                    foreach (var i in item.Products)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @if (item.Products != null)
                     {
-                    @Html.DisplayFor(modelItem => i.Name)<br />    
+                        foreach (var i in item.Products)
+                        {
+                            @Html.DisplayFor(modelItem => i.Name)<br />
+                        }
                     }
-                }
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

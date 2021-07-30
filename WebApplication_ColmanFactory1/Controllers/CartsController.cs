@@ -305,12 +305,11 @@ namespace WebApplication_ColmanFactory1.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        public IActionResult SearchCart(string query)
+        public async Task <IActionResult> SearchCart(string query)
         {
             try
             {
-
-                List<Cart> carts = _context.Carts.Where(c => c.User.Username.Contains(query)).Include(p => p.Products).ToList();
+                List<Cart> carts = await _context.Carts.Where(c => c.User.Username.Contains(query)).Include(p => p.Products).ToListAsync();
 
                 foreach (Cart c in carts)
                 {

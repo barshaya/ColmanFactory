@@ -31,7 +31,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
       
-        public async Task<IActionResult> Search(string query)
+        public async Task<IActionResult> SearchCategory(string query)
         {
             try
             {

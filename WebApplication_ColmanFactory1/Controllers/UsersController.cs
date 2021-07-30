@@ -105,7 +105,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Search(string Username, string role)
+        public async Task<IActionResult> SearchUser(string Username, string role)
         {
             try
             {
