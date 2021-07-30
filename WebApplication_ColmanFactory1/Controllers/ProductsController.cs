@@ -213,5 +213,15 @@ namespace WebApplication_ColmanFactory1.Controllers
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
+
+        public async Task<IActionResult> SearchByNameAndCategory(string productName, string category)
+        {
+            try
+            {
+                var applicationDbContext = _context.Products.Include(a => a.Category).Where(a => a.Name.Contains(productName) && a.Category.Name.Equals(category));
+                return View("SearchList", await applicationDbContext.ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
     }
 }
