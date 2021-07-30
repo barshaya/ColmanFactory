@@ -9,12 +9,15 @@
 </div>
 
 <section id="searchSection">
-    <div class="input-group mb-4">
-        <input type="text" class="form-control" placeholder="Search a shoe..." aria-label="Search shoe" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Search</button>
+    <form asp-controller="Products" asp-action="SearchByName">
+        <div class="input-group mb-4">
+            <input type="text" class="form-control" id="productName" name="productName" required min="1" placeholder="Search a shoe..." aria-label="Search shoe" >
+            <div class="input-group-append">
+                <button type="submit" value="Search" class="btn btn-dark">Search</button>
+            </div>
         </div>
-    </div>
+    </form>
+
     
     <form asp-controller="Products" asp-action="Search">
         <p class="text-dark">Advanced Search:</p>
@@ -88,8 +91,8 @@
         @foreach (var item in Model)
         {
             <div class="col-md-3">
-                <div class="card mb-2" style=" padding: .75rem; border: 1px solid; box-shadow: 0px 0px 0.1px 0.1px rgba(0,0,0,1);">
-                    <img src="@item.imagePath" class="card-img-top" alt="item image">
+                <div class="card mb-2" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1); height:20rem;">
+                    <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text text-danger tex font-weight-bolder">Price: @item.Price₪</p>
