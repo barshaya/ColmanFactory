@@ -5,22 +5,54 @@
 }
 
 <div class="text-center">
-    <h1 class="display-2">Women Shoes</h1>
-    <p>Shoes for real ladies</p>
+    <h1 class="display-2">Women</h1>
 </div>
 
-<div class="input-group mb-4">
-    <input type="text" class="form-control" placeholder="Search a shoe..." aria-label="Search shoe" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Search</button>
-    </div>
-</div>
+<section id="searchSection">
+    <form asp-controller="Products" asp-action="SearchByNameAndCategory" asp-route-category="Women">
+        <div class="input-group mb-4">
+            <input type="text" class="form-control" id="productName" name="productName" required min="1" placeholder="Search a shoe..." aria-label="Search shoe">
+            <div class="input-group-append">
+                <button type="submit" value="Search" class="btn btn-dark">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <form asp-controller="Products" asp-action="AdvancedSearch">
+        <p class="text-dark">Advanced Search:</p>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" id="productName" class="form-control" name="productName" required min="1" placeholder="Shoe Name">
+            </div>
+            <div class="col-md-3">
+                <select class="custom-select" name="category" id="category" required aria-label="Category select ">
+                    <option value="Women" selected>Women</option>
+                    <option value="Men" disabled>Men</option>
+                    <option value="Boys" disabled>Boys</option>
+                    <option value="Girls" disabled>Girls</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="custom-select" aria-label="Min price select" name="price" id="price" required>
+                    <option selected disabled>Max Price</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" value="Search" class="btn btn-dark">Search</button>
+            </div>
+        </div>
+    </form>
+</section>
 
 <div id="onSaleHead" class="row w-100 p-0 my-5">
     <div class="text-center col-md-6 make-red">
-        <h2 class="display-3">You are a lady!</h2>
-        <h5 class="display-4">Buy a lady shoe ...</h5>
-        <img src="https://jooinn.com/images/sale-1.jpg" class="img-fluid w-50" />
+        <h2 class="display-3">Shoes for real ladies !</h2>
+        <h5 class="display-4">Get your's today ...</h5>
     </div>
 
     <div id="carouselIndicators" class="carousel slide col-md-6 p-0" data-ride="carousel">
@@ -31,13 +63,13 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="https://images.unsplash.com/photo-1583238620298-25dd9fa7f5cf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="First slide">
+                <img class="d-block w-100" src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d29tZW4lMjBzaG9lc3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d29tZW4lMjBzaG9lc3xlbnwwfDB8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Second slide">
+                <img class="d-block w-100" src="https://images.unsplash.com/photo-1519707574798-77140649cfe5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fHdvbWVuJTIwc2hvZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Second slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="https://images.unsplash.com/photo-1507138170390-6625c5fd0115?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8d29tZW4lMjBzaG9lc3xlbnwwfDB8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Third slide">
+                <img class="d-block w-100" src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHdvbWVuJTIwc2hvZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Third slide">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
@@ -55,12 +87,17 @@
     <div class="row ">
         @foreach (var item in Model)
         {
-            <div class="col-md-4">
-                <div class="card mb-2" style=" padding: .75rem; border: 1px solid; box-shadow: 0px 0px 0.1px 0.1px rgba(0,0,0,1);">
-                    <img src="@item.imagePath" class="card-img-top" alt="item image">
+            string priceColor = "";
+            if (item.IsOnSale)
+            {
+                priceColor = "text-danger";
+            }
+            <div class="col-md-3">
+                <div class="card mb-4" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1);">
+                    <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text text-danger tex font-weight-bolder">Price: @item.Price₪</p>
+                        <p class="card-text @priceColor font-weight-bolder">Price: @item.Price₪</p>
                         <div class="card-buttons row justify-content-around">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                             <form asp-controller="Carts" asp-action="AddProductToCart" asp-route-id="@item.Id" method="post">
