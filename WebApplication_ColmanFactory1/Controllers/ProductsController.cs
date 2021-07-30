@@ -203,13 +203,13 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> SearchProduct(string query)
+
+        public async Task<IActionResult> SearchByName(string productName)
         {
             try
             {
-                var applicationDbContext = _context.Products.Include(p => p.Category);
-                return PartialView(await applicationDbContext.Where(p => p.Name.Contains(query)).ToListAsync());
+                var applicationDbContext = _context.Products.Include(a => a.Category).Where(a => a.Name.Contains(productName));
+                return View("searchList", await applicationDbContext.ToListAsync());
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
