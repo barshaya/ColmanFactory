@@ -8,12 +8,48 @@
     <p>Shoes for pro students !</p>
 </div>
 
-<div class="input-group mb-4">
-    <input type="text" class="form-control" placeholder="Search a shoe..." aria-label="Search shoe" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Search</button>
-    </div>
-</div>
+<section id="searchSection">
+    <form asp-controller="Products" asp-action="SearchByName">
+        <div class="input-group mb-4">
+            <input type="text" class="form-control" id="productName" name="productName" required min="1" placeholder="Search a shoe..." aria-label="Search shoe" >
+            <div class="input-group-append">
+                <button type="submit" value="Search" class="btn btn-dark">Search</button>
+            </div>
+        </div>
+    </form>
+
+    
+    <form asp-controller="Products" asp-action="Search">
+        <p class="text-dark">Advanced Search:</p>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" id="productName" class="form-control" name="productName" required min="1" placeholder="Shoe Name">
+            </div>
+            <div class="col-md-3">
+                <select class="custom-select" name="category" id="category" required aria-label="Category select ">
+                    <option selected disabled>Category</option>
+                    <option value="Women">Women</option>
+                    <option value="Men">Men</option>
+                    <option value="Boys">Boys</option>
+                    <option value="Girls">Girls</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="custom-select" aria-label="Min price select" name="price" id="price" required>
+                    <option selected disabled>Max Price</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" value="Search" class="btn btn-dark">Search</button>
+            </div>
+        </div>
+    </form>
+</section>
 
 <div id="onSaleHead" class="row w-100 p-0 my-5">
     <div class="text-center col-md-6 make-red">
@@ -55,8 +91,8 @@
         @foreach (var item in Model)
         {
             <div class="col-md-3">
-                <div class="card mb-2" style=" padding: .75rem; border: 1px solid; box-shadow: 0px 0px 0.1px 0.1px rgba(0,0,0,1);">
-                    <img src="@item.imagePath" class="card-img-top" alt="item image">
+                <div class="card mb-2" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1); height:20rem;">
+                    <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text text-danger tex font-weight-bolder">Price: @item.Price₪</p>
