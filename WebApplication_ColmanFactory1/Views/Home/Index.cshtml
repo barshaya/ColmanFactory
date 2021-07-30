@@ -19,7 +19,7 @@
     </form>
 
     
-    <form asp-controller="Products" asp-action="Search">
+    <form asp-controller="Products" asp-action="AdvancedSearch">
         <p class="text-dark">Advanced Search:</p>
         <div class="row">
             <div class="col-md-3">
@@ -91,7 +91,7 @@
         @foreach (var item in Model)
         {
             <div class="col-md-3">
-                <div class="card mb-2" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1); height:20rem;">
+                <div class="card mb-4" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1);">
                     <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>

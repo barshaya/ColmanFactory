@@ -193,7 +193,7 @@ namespace WebApplication_ColmanFactory1.Controllers
             return _context.Products.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> SearchList(string productName, string category, string price)
+        public async Task<IActionResult> AdvancedSearch(string productName, string category, string price)
         {
             try
             {
