@@ -51,6 +51,15 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.map {
+    position: absolute;
+    width: calc(50% - 15px);
+    height: 87%;
+    right: 0;
+    top: 0;
+    background: #ddd;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
