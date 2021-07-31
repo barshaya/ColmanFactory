@@ -25,7 +25,7 @@
                             <img src="@item.imagePath" class="img-fluid img-thumbnail" style="height: 12rem;">
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>Size</td>
+                        <td>@Html.DisplayFor(modelItem => item.Size)</td>
                         <td>@Html.DisplayFor(modelItem => item.Price)</td>
                         <td>
                             <form asp-controller="Carts" asp-action="RemoveProductFromCart" asp-route-id="@item.Id" method="post">

@@ -19,6 +19,7 @@
                 <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
                 <div class="card-body">
                     <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text font-weight-bolder">Size: @item.Size</p>
                     <p class="card-text @priceColor font-weight-bolder">Price: @item.Price₪</p>
                     <div class="card-buttons row justify-content-around">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
