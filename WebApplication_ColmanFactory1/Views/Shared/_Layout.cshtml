@@ -34,6 +34,11 @@
                         <li class="nav-item">
                             <a href="/Home/About" class="btn">About</a>
                         </li>
+                        <li class="nav-item">
+                            <div id="fb-root"></div>
+                            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/he_IL/sdk.js#xfbml=1&version=v11.0&appId=1163597744152928&autoLogAppEvents=1" nonce="jsD1P6RC"></script>
+                            <div class="fb-share-button" data-href="https://www.linkpicture.com/q/ColmanFactory.png" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"></a></div>
+                        </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
                         @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
