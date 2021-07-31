@@ -279,18 +279,13 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
-        [Authorize]
-        public async Task<IActionResult> Pay()
+        public async Task<IActionResult> FinishPay()
         {
             try
             {
                 String userName = HttpContext.User.Identity.Name;
                 User user = _context.Users.FirstOrDefault(x => x.Username.Equals(userName));
-                if (user == null)
-                {
-                    return RedirectToAction("PageNotFound", "Home");
-                }
-                Cart cart = _context.Carts.Include(db => db.Products).FirstOrDefault(x => x.UserId == user.Id);
+                Cart cart = _context.Carts.Include(db => db.Products).FirstOrDefault(x => x.User.Username == user.Username );
 
                 cart.Products.Clear();
                 cart.TotalPrice = 0;
