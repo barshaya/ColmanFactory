@@ -11,14 +11,14 @@
 <section id="searchSection">
     <form asp-controller="Products" asp-action="SearchByName">
         <div class="input-group mb-4">
-            <input type="text" class="form-control" id="productName" name="productName" required min="1" placeholder="Search a shoe..." aria-label="Search shoe" >
+            <input type="text" class="form-control" id="productName" name="productName" required min="1" placeholder="Search a shoe..." aria-label="Search shoe">
             <div class="input-group-append">
                 <button type="submit" value="Search" class="btn btn-dark">Search</button>
             </div>
         </div>
     </form>
 
-    
+
     <form asp-controller="Products" asp-action="AdvancedSearch">
         <p class="text-dark">Advanced Search:</p>
         <div class="row">
@@ -86,26 +86,31 @@
     </div>
 </div>
 
-    <div class="row mt-2">
-        @foreach (var item in Model)
+<div class="row mt-2">
+    @foreach (var item in Model)
+    {
+        string priceColor = "";
+        if (item.IsOnSale)
         {
-            <div class="col-md-3">
-                <div class="card mb-4" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1);">
-                    <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text text-danger tex font-weight-bolder">Price: @item.Price₪</p>
-                        <div class="card-buttons row justify-content-around">
-                            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                            <form asp-controller="Carts" asp-action="AddProductToCart" asp-route-id="@item.Id" method="post">
-                                <button type="submit" class="btn btn-primary">
-                                    Add To Cart
-                                </button>
-                            </form>
-                        </div>
+            priceColor = "text-danger";
+        }
+        <div class="col-md-3">
+            <div class="card mb-4" style=" padding: .75rem; border: 1px solid; border-radius: 3px; box-shadow: 0px 0px 0.1px 0.8px rgba(0,0,0,1);">
+                <img src="@item.imagePath" class="card-img-top" alt="item image" style="height: 10rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text @priceColor font-weight-bolder">Price: @item.Price₪</p>
+                    <div class="card-buttons row justify-content-around">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                        <form asp-controller="Carts" asp-action="AddProductToCart" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-success">
+                                Add To Cart
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
+</div>
 
