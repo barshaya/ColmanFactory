@@ -13,7 +13,6 @@
             <div class="card-block p-4">
                 <h3 class="card-title display-4">@Model.Name</h3>
                 <p class="card-text"><span class="font-weight-bolder">Category:</span> @Model.Category.Name</p>
-                <p class="card-text"><span class="font-weight-bolder">Size:</span> @Model.Size</p>
                 <p class="card-text"><span class="font-weight-bolder">Price:</span> @Model.Price</p>
                 <form asp-controller="Carts" asp-action="AddProductToCart" asp-route-id="@Model.Id" method="post" class="mb-5">
                     <button type="submit" class="btn btn-success">

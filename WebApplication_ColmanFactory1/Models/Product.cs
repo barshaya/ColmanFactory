@@ -14,10 +14,6 @@ namespace WebApplication_ColmanFactory1.Models
         [StringLength(50, MinimumLength = 5)]
         [Required]
         public string Name { get; set; }
-   
-        [Required]
-        [Range(25, 47)]
-        public int Size { get; set; }
 
         [Required]
         [Range(0, 500)]

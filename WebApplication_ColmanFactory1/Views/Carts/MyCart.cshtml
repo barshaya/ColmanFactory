@@ -10,6 +10,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Image</th>
                     <th scope="col">Shoe Name</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Size</th>
                     <th scope="col">Price</th>
                     <th>Delete</th>
@@ -19,20 +20,65 @@
                 @foreach (var item in Model.Products)
                 {
                     int index = (@Model.Products.IndexOf(item) + 1);
-                    <tr>
-                        <th scope="row">@index</th>
-                        <td class="w-25">
-                            <img src="@item.imagePath" class="img-fluid img-thumbnail" style="height: 12rem;">
-                        </td>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Size)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                        <td>
-                            <form asp-controller="Carts" asp-action="RemoveProductFromCart" asp-route-id="@item.Id" method="post">
-                                <button class="btn btn-danger" type="submit">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
+                <tr>
+                    <th scope="row">@index</th>
+                    <td class="w-25">
+                        <img src="@item.imagePath" class="img-fluid img-thumbnail" style="height: 12rem;">
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    @switch (item.CategoryId)
+                    {
+                        case 1:
+                            <td>Women</td>
+                            break;
+                        case 2:
+                            <td>Men</td>
+                            break;
+                        case 3:
+                            <td>Boys</td>
+                            break;
+                        default:
+                            <td>Girls</td>
+                            break;
+                    }
+                    <td>
+                        <select class="form-control">
+                            @if (item.CategoryId == 3 || item.CategoryId == 4)
+                            {
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                                <option value="32">32</option>
+                                <option value="33">33</option>
+                                <option value="34">34</option>
+                                <option value="35">35</option>
+                            }
+                            else
+                            {
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                            }
+                        </select>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                    <td>
+                        <form asp-controller="Carts" asp-action="RemoveProductFromCart" asp-route-id="@item.Id" method="post">
+                            <button class="btn btn-danger" type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
                 }
             </tbody>
             <thead>
