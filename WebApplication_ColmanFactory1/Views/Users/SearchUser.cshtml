@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<WebApplication_ColmanFactory1.Models.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchUser";
 }
 
-<h1 class="">Users Index</h1>
-<br />
-
-<form asp-action="SearchUser">
+<form asp-action="SearchUser" class="mt-4">
     <label class="" for="User Name">User Name :</label>
     <input type="text" id="Username" name="Username" required min="1">
     <label class="" for="Type">Type :</label>
@@ -15,18 +12,18 @@
         <option value="Admin">Admin </option>
         <option value="Client">Client </option>
     </select>
-    <br /><br />
-    <button type="submit" value="Search" class="btn">Search</button>
+
+    <button type="submit" value="Search" class="btn btn-primary">Search</button>
 </form>
-<br />
-<table class="">
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
@@ -48,9 +45,6 @@
                     @Html.DisplayFor(modelItem => item.Username)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
@@ -60,23 +54,11 @@
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    <div class="btn-group">
-                        <a class="btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a class="btn" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
-                    </div>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-
-<p>
-    <button class="btn" asp-action="Create">Create New</button>
-</p>
-
-
-
-
-
