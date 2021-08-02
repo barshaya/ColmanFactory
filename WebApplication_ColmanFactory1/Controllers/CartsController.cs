@@ -218,6 +218,7 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
+
         [HttpPost, ActionName("AddProductToCart")]
         [ValidateAntiForgeryToken]
         [Authorize]

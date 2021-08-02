@@ -7,16 +7,15 @@
 <h1>Index</h1>
 
 <form asp-action="SearchUser">
-    <label class="text-light" for="User Name">User Name :</label>
+    <label class="" for="User Name">User Name :</label>
     <input type="text" id="Username" name="Username" required min="1">
-    <label class="text-light" for="Type">Type :</label>
+    <label class="" for="Type">Type :</label>
     <select name="role" id="role">
         <option value="Admin">Admin </option>
         <option value="Client">Client </option>
     </select>
 
-
-    <button type="submit" value="Search" class="btn btn-dark">Search</button>
+    <button type="submit" value="Search" class="btn btn-primary">Search</button>
 </form>
 
 <p>
@@ -37,9 +36,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cart)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -58,9 +54,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cart.Id)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

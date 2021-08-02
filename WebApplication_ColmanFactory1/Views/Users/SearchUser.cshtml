@@ -4,22 +4,22 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="font-weight-lighter text-light">Users Index</h1>
+<h1 class="">Users Index</h1>
 <br />
 
-<form asp-action="Search">
-    <label class="text-light" for="User Name">User Name :</label>
+<form asp-action="SearchUser">
+    <label class="" for="User Name">User Name :</label>
     <input type="text" id="Username" name="Username" required min="1">
-    <label class="text-light" for="Type">Type :</label>
+    <label class="" for="Type">Type :</label>
     <select name="role" id="role">
         <option value="Admin">Admin </option>
         <option value="Client">Client </option>
     </select>
     <br /><br />
-    <button type="submit" value="Search" class="btn btn-dark">Search</button>
+    <button type="submit" value="Search" class="btn">Search</button>
 </form>
 <br />
-<table class="table-striped styleTable">
+<table class="">
     <thead>
         <tr>
             <th>
@@ -61,9 +61,9 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
+                        <a class="btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
                     </div>
                 </td>
             </tr>
@@ -73,7 +73,7 @@
 
 
 <p>
-    <button class="btn btn-outline-light" asp-action="Create">Create New</button>
+    <button class="btn" asp-action="Create">Create New</button>
 </p>
 
 
