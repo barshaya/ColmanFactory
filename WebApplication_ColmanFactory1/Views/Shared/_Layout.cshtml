@@ -68,7 +68,7 @@
                                 }
                                 @if (Context.User.IsInRole("Admin"))
                                 {
-                                 <li class="nav-item dropdown">
+                                 <li class="nav-item dropdown" style="cursor: pointer;">
                                     <a class="btn dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                                         Manage
                                     </a>
@@ -92,7 +92,7 @@
                 </main>
             </div>
 
-            <footer class="border-top footer text-muted">
+            <footer class="border-top footer text-muted text-center">
                 <div class="container">
                     &copy; 2021 - WebApplication_ColmanFactory1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </div>
