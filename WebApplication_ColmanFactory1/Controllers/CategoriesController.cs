@@ -184,6 +184,13 @@ namespace WebApplication_ColmanFactory1.Controllers
             try
             {
                 var category = await _context.Categories.FindAsync(id);
+                foreach (Product p in _context.Products)
+                {
+                    if (p.CategoryId == id)
+                    {
+                        _context.Products.Remove(p);
+                    }
+                }
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

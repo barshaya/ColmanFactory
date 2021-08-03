@@ -26,7 +26,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         {
             try
             {
-                var applicationDbContext = _context.Products.Include(p => p.Category);
+                var applicationDbContext = _context.Products.Include(p =>p.Category);
                 return View(await applicationDbContext.ToListAsync());
 
             }
@@ -61,7 +61,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -80,7 +80,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
                 return View(product);
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
@@ -102,7 +102,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                 {
                     return  RedirectToAction("PageNotFound", "Home");
                 }
-                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
                 return View(product);
             }
             catch { return RedirectToAction("PageNotFound", "Home");}
@@ -143,7 +143,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
                 return View(product);
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
@@ -250,7 +250,7 @@ namespace WebApplication_ColmanFactory1.Controllers
                              select p;
                 foreach (var v in result)
                 {
-                    statistic1.Add(new Stat(v.Name, v.Carts.Count()));
+                    statistic1.Add(new Stat(v.Name, v.Carts.Count));
                 }
 
                 ViewBag.data1 = statistic1;
