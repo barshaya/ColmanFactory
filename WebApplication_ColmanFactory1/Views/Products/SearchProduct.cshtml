@@ -13,14 +13,21 @@
     <td>
         @Html.DisplayFor(modelItem => item.Category.Name)
     </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.imagePath)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsOnSale)
+    </td>
 
 
     <td>
         <div class="btn-group">
-            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-            <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
+            <a class="btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            <a class="btn" asp-action="Details" asp-route-id="@item.Id">Details</a>
+            <a class="btn" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
         </div>
     </td>
-</tr>            }
+</tr>           
+}
 

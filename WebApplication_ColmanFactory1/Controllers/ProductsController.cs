@@ -205,12 +205,12 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> SearchProduct(string productName)
+        public async Task<IActionResult> SearchProduct(string query)
         {
             try
             {
                 var applicationDbContext = _context.Products.Include(p => p.Category);
-                return PartialView(await applicationDbContext.Where(p => p.Name.Contains(productName)).ToListAsync());
+                return PartialView(await applicationDbContext.Where(p => p.Name.Contains(query)).ToListAsync());
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
