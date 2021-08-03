@@ -197,7 +197,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         public async Task<IActionResult> AdvancedSearch(string productName, string category, string price)
         {
             try
-            {
+            { 
                 var applicationDbContext = _context.Products.Include(a => a.Category).Where(a => a.Name.Contains(productName) && a.Category.Name.Equals(category) && a.Price <= Int32.Parse(price));
                 return View("SearchList", await applicationDbContext.ToListAsync());
             }

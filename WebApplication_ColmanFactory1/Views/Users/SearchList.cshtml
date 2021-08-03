@@ -1,20 +1,9 @@
-﻿
-@model IEnumerable<WebApplication_ColmanFactory1.Models.User>
+﻿@model IEnumerable<WebApplication_ColmanFactory1.Models.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchList";
 }
 
-<form asp-action="SearchUser" class="mt-4">
-    <label class="" for="User Name">User Name :</label>
-    <input type="text" id="Username" name="Username" required min="1">
-    <label class="" for="Type">Type :</label>
-    <select name="role" id="role">
-        <option value="Admin">Admin </option>
-        <option value="Client">Client </option>
-    </select>
-    <button type="submit" value="Search" class="btn btn-primary">Search</button>
-</form>
 
 <form asp-controller="Users" asp-action="AdvancedSearch">
     <p class="text-dark">Advanced Search:</p>
@@ -33,6 +22,7 @@
         </div>
     </div>
 </form>
+
 
 <p>
     <a asp-action="Create">Create New</a>

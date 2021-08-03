@@ -309,5 +309,15 @@ namespace WebApplication_ColmanFactory1.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> AdvancedSearch(string username, string email, string phone)
+        {
+            try
+            {
+                var applicationDbContext = _context.Users.Where(a => a.Username.Contains(username) && a.Email.Equals(email) && a.PhoneNumber.ToString().Equals(phone));
+                return View("SearchList", await applicationDbContext.ToListAsync());
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
     }
 }
