@@ -74,7 +74,7 @@ namespace WebApplication_ColmanFactory1.Controllers
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
-       
+
 
         // GET: Users/Login
         public IActionResult Login()
@@ -88,17 +88,17 @@ namespace WebApplication_ColmanFactory1.Controllers
         {
             try
             {
-                    var q = _context.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
-                    if (q != null)
-                    {
-                        Signin(q);
-                        return RedirectToAction(nameof(Index), "Home");
-                    }
-                    else
-                    {
-                        ViewData["Error"] = "The user name or password is incorrect";
-                    }
-                
+                var q = _context.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+                if (q != null)
+                {
+                    Signin(q);
+                    return RedirectToAction(nameof(Index), "Home");
+                }
+                else
+                {
+                    ViewData["Error"] = "The user name or password is incorrect";
+                }
+
                 return View(user);
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
@@ -320,4 +320,5 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
     }
+
 }

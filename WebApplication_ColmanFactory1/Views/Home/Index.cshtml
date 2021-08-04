@@ -4,6 +4,26 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .img-link {
+        position: relative;
+        text-align: center;
+        color: black;
+        font-size:30px;
+    }
+
+    .centered {
+        background-color:white;
+        width:140px;
+        border: 5px solid black;
+        position: absolute;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+
 <div class="text-center">
     <h1 class="display-2">Colman Factory</h1>
     <p>Shoes for pro students !</p>
@@ -51,6 +71,34 @@
         </div>
     </form>
 </section>
+
+<br/>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col img-link">
+            <a asp-area="" asp-controller="Categories" asp-action="Women">
+                <img class="img-fluid" alt="Women" src="https://images.unsplash.com/photo-1578420631372-cfd597e5dcec?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80">               
+            </a>
+         <div class="centered">Women</div>
+        </div>
+        <div class="col img-link">
+            <a asp-area="" asp-controller="Categories" asp-action="Men"><img class="img-fluid" alt="Men" src="https://images.unsplash.com/photo-1599030337145-5bec28bee393?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"></a>
+            <div class="centered">Men</div>
+        </div>
+     </div>
+    <br/>
+    <div class="row">
+        <div class="col img-link">
+            <a asp-area="" asp-controller="Categories" asp-action="Boys"><img class="img-fluid" alt="Boys" src="https://images.unsplash.com/photo-1591425346752-0ee80bcca4da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"></a>
+            <div class="centered">Boys</div>
+        </div>
+        <div class="col img-link">
+            <a asp-area="" asp-controller="Categories" asp-action="Girls"><img class="img-fluid" alt="Girls" src="https://images.unsplash.com/photo-1497340525489-441e8427c980?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"></a>
+            <div class="centered">Girls</div>
+        </div>
+    </div>
+</div>
 
 <div id="onSaleHead" class="row w-100 p-0 my-5">
     <div class="text-center col-md-6 make-red">
