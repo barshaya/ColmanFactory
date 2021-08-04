@@ -4,24 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    .img-link {
-        position: relative;
-        text-align: center;
-        color: black;
-        font-size:30px;
-    }
-
-    .centered {
-        background-color:white;
-        width:140px;
-        border: 5px solid black;
-        position: absolute;
-        top: 90%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="~/css/home.css">
 
 
 <div class="text-center">
@@ -72,30 +55,36 @@
     </form>
 </section>
 
-<br/>
-<br/>
+<br />
+<br />
 <div class="container">
     <div class="row">
         <div class="col img-link">
             <a asp-area="" asp-controller="Categories" asp-action="Women">
-                <img class="img-fluid" alt="Women" src="https://images.unsplash.com/photo-1578420631372-cfd597e5dcec?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80">               
+                <img class="img-fluid" alt="Women" src="https://images.unsplash.com/photo-1578420631372-cfd597e5dcec?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80">
+                <div class="centered">Women</div>
             </a>
-         <div class="centered">Women</div>
         </div>
         <div class="col img-link">
-            <a asp-area="" asp-controller="Categories" asp-action="Men"><img class="img-fluid" alt="Men" src="https://images.unsplash.com/photo-1599030337145-5bec28bee393?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"></a>
-            <div class="centered">Men</div>
+            <a asp-area="" asp-controller="Categories" asp-action="Men">
+                <img class="img-fluid" alt="Men" src="https://images.unsplash.com/photo-1599030337145-5bec28bee393?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80">
+                <div class="centered">Men</div>
+            </a>
         </div>
-     </div>
-    <br/>
+    </div>
+    <br />
     <div class="row">
         <div class="col img-link">
-            <a asp-area="" asp-controller="Categories" asp-action="Boys"><img class="img-fluid" alt="Boys" src="https://images.unsplash.com/photo-1591425346752-0ee80bcca4da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"></a>
-            <div class="centered">Boys</div>
+            <a asp-area="" asp-controller="Categories" asp-action="Boys">
+                <img class="img-fluid" alt="Boys" src="https://images.unsplash.com/photo-1591425346752-0ee80bcca4da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80">
+                <div class="centered">Boys</div>
+            </a>
         </div>
         <div class="col img-link">
-            <a asp-area="" asp-controller="Categories" asp-action="Girls"><img class="img-fluid" alt="Girls" src="https://images.unsplash.com/photo-1497340525489-441e8427c980?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"></a>
-            <div class="centered">Girls</div>
+            <a asp-area="" asp-controller="Categories" asp-action="Girls">
+                <img class="img-fluid" alt="Girls" src="https://images.unsplash.com/photo-1497340525489-441e8427c980?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80">
+                <div class="centered">Girls</div>
+            </a>
         </div>
     </div>
 </div>
@@ -156,16 +145,16 @@
                         case 1:
                             <span>Women</span>;
                             break;
-                        case 2: 
+                        case 2:
                             <span>Men</span>;
                             break;
-                        case 3: 
+                        case 3:
                             <span>Boys</span>;
                             break;
                         default:
                             <span>Girls</span>;
                             break;
-                     }
+                    }
                     <p class="card-text @priceColor font-weight-bolder">Price: $@item.Price</p>
                     <div class="card-buttons row justify-content-around">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>

@@ -155,7 +155,9 @@ namespace WebApplication_ColmanFactory1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
+
         // GET: Users/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             try
@@ -179,6 +181,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         }
 
         // GET: Users/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -189,6 +192,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,PhoneNumber,Type")] User user)
         {
             try
@@ -293,6 +297,7 @@ namespace WebApplication_ColmanFactory1.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             try
@@ -310,11 +315,12 @@ namespace WebApplication_ColmanFactory1.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdvancedSearch(string username, string email, string phone)
         {
             try
             {
-                var applicationDbContext = _context.Users.Where(a => a.Username.Contains(username) && a.Email.Equals(email) && a.PhoneNumber.ToString().Equals(phone));
+                var applicationDbContext = _context.Users.Where(a => a.Username.Contains(username) && a.Email.Contains(email) && a.PhoneNumber.ToString().Contains(phone));
                 return View("SearchList", await applicationDbContext.ToListAsync());
             }
             catch { return RedirectToAction("PageNotFound", "Home"); }
