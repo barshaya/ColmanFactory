@@ -16,6 +16,26 @@
     <button type="submit" value="Search" class="btn btn-primary">Search</button>
 </form>
 
+<form asp-controller="Users" asp-action="AdvancedSearch">
+    <p class="text-dark">Advanced Search:</p>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" id="userName" class="form-control" name="userName" required min="1" placeholder="Username">
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="email" class="form-control" name="email" required min="1" placeholder="email">
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="phone" class="form-control" name="phone" required min="1" placeholder="phone">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" value="Search" class="btn btn-dark">Search</button>
+        </div>
+    </div>
+</form>
+
+
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
